@@ -66,6 +66,17 @@ cpd_m3 = TabularCPD('Mastery_C3', 2,
                                  'Difficulty_C3': ['easy', 'hard'],
                                  'StudentLevel': ['struggling', 'advanced']})
 
+# Pr(Stress | DaysLeft)
+# columns: few, many
+cpd_stress = TabularCPD('Stress', 2,
+                        [[0.25, 0.75],   # low
+                         [0.75, 0.25]],  # high
+                        evidence=['DaysLeft'], evidence_card=[2],
+                        state_names={'Stress': ['low', 'high'],
+                                     'DaysLeft': ['few', 'many']})
+# few days left: exam is close so most people are stressed
+# many days left: plenty of time so most people are calm, some stress early anyway
+
 # draw the network (same as the class example)
 di_graph = nx.DiGraph(model.edges())
 
