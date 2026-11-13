@@ -65,3 +65,8 @@ How I picked these:
 - Inference is lower in every case because I think it's harder even when it's rated easy.
 - No 0s or 1s, so evidence can always change the belief.
 - Possible issue: student level matters more than difficulty here. I'll check in the scenarios that difficulty still changes the action.
+
+### Stress: Pr(Stress | DaysLeft)
+Chance of high stress:
+- few days left: 0.75, the exam is close so most people are stressed, but not everyone
+- many days left: 0.25, there's plenty of time so most people are calm, but some people stress early anyway
