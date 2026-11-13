@@ -31,3 +31,12 @@ These go into the utility function to pick the best action.
 - practice: 2 hour practice problem session
 - light: 1 hour review session
 - rest: clear the calendar for a rest day
+
+## CPTs
+### Root nodes
+These are always set as evidence in the scenarios, so the priors only matter if a value is unknown.
+- Difficulty_C1 (Bayes' rule): P(hard) = 0.6, because I rated it somewhat hard
+- Difficulty_C2 (inference): P(hard) = 0.8, because I rated it hard
+- Difficulty_C3 (expected utility): P(hard) = 0.6, because I rated it somewhat hard
+- StudentLevel: 50/50, no reason to think one type of student is more common
+- DaysLeft: 50/50, few = 3 days or less until the exam
