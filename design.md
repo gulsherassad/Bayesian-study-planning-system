@@ -40,3 +40,28 @@ These are always set as evidence in the scenarios, so the priors only matter if 
 - Difficulty_C3 (expected utility): P(hard) = 0.6, because I rated it somewhat hard
 - StudentLevel: 50/50, no reason to think one type of student is more common
 - DaysLeft: 50/50, few = 3 days or less until the exam
+
+### Mastery: Pr(Mastery | Difficulty, StudentLevel)
+Chance the student has mastered each concept:
+
+Bayes' rule (C1)
+- easy, struggling: 0.60
+- easy, advanced: 0.95
+- hard, struggling: 0.30
+- hard, advanced: 0.75
+
+Inference (C2)
+- easy, struggling: 0.45
+- easy, advanced: 0.90
+- hard, struggling: 0.10
+- hard, advanced: 0.60
+
+Expected utility (C3)
+- same as Bayes' rule, since I rated them the same
+
+How I picked these:
+- hard + struggling is my gut feeling for each concept. Inference is the lowest because I find it the hardest.
+- The rest follow a simple rule: an easy version roughly doubles a struggling student's chance, and an advanced student adds about 0.45.
+- Inference is lower in every case because I think it's harder even when it's rated easy.
+- No 0s or 1s, so evidence can always change the belief.
+- Possible issue: student level matters more than difficulty here. I'll check in the scenarios that difficulty still changes the action.
