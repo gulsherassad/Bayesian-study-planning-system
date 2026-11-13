@@ -77,6 +77,29 @@ cpd_stress = TabularCPD('Stress', 2,
 # few days left: exam is close so most people are stressed
 # many days left: plenty of time so most people are calm, some stress early anyway
 
+# Pr(StudyNeed | Mastery_C1, Mastery_C2, Mastery_C3, DaysLeft)
+# more low concepts and fewer days left = higher need
+# column order: LLL few, LLL many, LLH few, LLH many, ... HHH few, HHH many
+cpd_need = TabularCPD('StudyNeed', 3,
+                      [[0.02, 0.10, 0.05, 0.20, 0.05, 0.20, 0.25, 0.50,
+                        0.05, 0.20, 0.25, 0.50, 0.25, 0.50, 0.60, 0.80],   # low
+                       [0.18, 0.40, 0.35, 0.50, 0.35, 0.50, 0.50, 0.40,
+                        0.35, 0.50, 0.50, 0.40, 0.50, 0.40, 0.30, 0.15],   # medium
+                       [0.80, 0.50, 0.60, 0.30, 0.60, 0.30, 0.25, 0.10,
+                        0.60, 0.30, 0.25, 0.10, 0.25, 0.10, 0.10, 0.05]],  # high
+                      evidence=['Mastery_C1', 'Mastery_C2', 'Mastery_C3', 'DaysLeft'],
+                      evidence_card=[2, 2, 2, 2],
+                      state_names={'StudyNeed': ['low', 'medium', 'high'],
+                                   'Mastery_C1': ['low', 'high'],
+                                   'Mastery_C2': ['low', 'high'],
+                                   'Mastery_C3': ['low', 'high'],
+                                   'DaysLeft': ['few', 'many']})
+
+model.add_cpds(cpd_d1, cpd_d2, cpd_d3, cpd_level, cpd_days,
+               cpd_m1, cpd_m2, cpd_m3, cpd_stress, cpd_need)
+assert model.check_model()
+print("model is valid")
+
 # draw the network (same as the class example)
 di_graph = nx.DiGraph(model.edges())
 
