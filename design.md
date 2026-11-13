@@ -70,3 +70,19 @@ How I picked these:
 Chance of high stress:
 - few days left: 0.75, the exam is close so most people are stressed, but not everyone
 - many days left: 0.25, there's plenty of time so most people are calm, but some people stress early anyway
+
+### StudyNeed: Pr(StudyNeed | Mastery_C1, Mastery_C2, Mastery_C3, DaysLeft)
+This one has 16 columns. To keep it manageable, I assumed study need only depends on how many concepts are low mastery, not which ones. That leaves 8 cases.
+
+Chance of low / medium / high need:
+- 3 low, few days: 0.02 / 0.18 / 0.80, weak at everything and the exam is close
+- 3 low, many days: 0.10 / 0.40 / 0.50, still high need but there's time
+- 2 low, few days: 0.05 / 0.35 / 0.60, mostly high
+- 2 low, many days: 0.20 / 0.50 / 0.30, mostly medium
+- 1 low, few days: 0.25 / 0.50 / 0.25, mostly medium
+- 1 low, many days: 0.50 / 0.40 / 0.10, low to medium
+- 0 low, few days: 0.60 / 0.30 / 0.10, mostly low, but a quick review still helps
+- 0 low, many days: 0.80 / 0.15 / 0.05, barely need to study
+
+General rule: more low concepts and fewer days left means higher need.
+Limitation: it treats all concepts the same here, even though inference is harder.
