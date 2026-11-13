@@ -24,20 +24,47 @@ model = DiscreteBayesianNetwork([
 
 # root nodes, these will be set as evidence so the priors are just my guesses
 # state order: [easy, hard]
-cpd_d1 = TabularCPD('Difficulty_C1', 2, [[0.4], [0.6]],
-                    state_names={'Difficulty_C1': ['easy', 'hard']})  # bayes rule: somewhat hard
-cpd_d2 = TabularCPD('Difficulty_C2', 2, [[0.2], [0.8]],
-                    state_names={'Difficulty_C2': ['easy', 'hard']})  # inference: hard
-cpd_d3 = TabularCPD('Difficulty_C3', 2, [[0.4], [0.6]],
-                    state_names={'Difficulty_C3': ['easy', 'hard']})  # expected utility: somewhat hard
+cpd_d1 = TabularCPD('Difficulty_C1', 2, [[0.4], [0.6]], state_names={'Difficulty_C1': ['easy', 'hard']})  # bayes rule: somewhat hard
+cpd_d2 = TabularCPD('Difficulty_C2', 2, [[0.2], [0.8]], state_names={'Difficulty_C2': ['easy', 'hard']})  # inference: hard
+cpd_d3 = TabularCPD('Difficulty_C3', 2, [[0.4], [0.6]], state_names={'Difficulty_C3': ['easy', 'hard']})  # expected utility: somewhat hard
 
 # no reason to think one type of student is more common
-cpd_level = TabularCPD('StudentLevel', 2, [[0.5], [0.5]],
-                       state_names={'StudentLevel': ['struggling', 'advanced']})
+cpd_level = TabularCPD('StudentLevel', 2, [[0.5], [0.5]], state_names={'StudentLevel': ['struggling', 'advanced']})
 
 # few = 3 days or less until the exam
-cpd_days = TabularCPD('DaysLeft', 2, [[0.5], [0.5]],
-                      state_names={'DaysLeft': ['few', 'many']})
+cpd_days = TabularCPD('DaysLeft', 2, [[0.5], [0.5]], state_names={'DaysLeft': ['few', 'many']})
+
+# Pr(Mastery | Difficulty, StudentLevel)
+# columns: easy+struggling, easy+advanced, hard+struggling, hard+advanced
+# hard+struggling is my gut feeling for each concept, the rest follow from it:
+# easy roughly doubles a struggling student's chance, advanced adds about 0.45
+
+# bayes rule
+cpd_m1 = TabularCPD('Mastery_C1', 2,
+                    [[0.40, 0.05, 0.70, 0.25],   # low
+                     [0.60, 0.95, 0.30, 0.75]],  # high
+                    evidence=['Difficulty_C1', 'StudentLevel'], evidence_card=[2, 2],
+                    state_names={'Mastery_C1': ['low', 'high'],
+                                 'Difficulty_C1': ['easy', 'hard'],
+                                 'StudentLevel': ['struggling', 'advanced']})
+
+# inference, lower than the others everywhere since I find it the hardest
+cpd_m2 = TabularCPD('Mastery_C2', 2,
+                    [[0.55, 0.10, 0.90, 0.40],   # low
+                     [0.45, 0.90, 0.10, 0.60]],  # high
+                    evidence=['Difficulty_C2', 'StudentLevel'], evidence_card=[2, 2],
+                    state_names={'Mastery_C2': ['low', 'high'],
+                                 'Difficulty_C2': ['easy', 'hard'],
+                                 'StudentLevel': ['struggling', 'advanced']})
+
+# expected utility, same as bayes rule since I rated them the same
+cpd_m3 = TabularCPD('Mastery_C3', 2,
+                    [[0.40, 0.05, 0.70, 0.25],   # low
+                     [0.60, 0.95, 0.30, 0.75]],  # high
+                    evidence=['Difficulty_C3', 'StudentLevel'], evidence_card=[2, 2],
+                    state_names={'Mastery_C3': ['low', 'high'],
+                                 'Difficulty_C3': ['easy', 'hard'],
+                                 'StudentLevel': ['struggling', 'advanced']})
 
 # draw the network (same as the class example)
 di_graph = nx.DiGraph(model.edges())
