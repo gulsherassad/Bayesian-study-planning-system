@@ -1,4 +1,5 @@
 from pgmpy.models import DiscreteBayesianNetwork
+from pgmpy.factors.discrete import TabularCPD
 import matplotlib.pyplot as plt
 import networkx as nx
 
@@ -20,6 +21,23 @@ model = DiscreteBayesianNetwork([
     ('DaysLeft', 'StudyNeed'),
     ('DaysLeft', 'Stress'),
 ])
+
+# root nodes, these will be set as evidence so the priors are just my guesses
+# state order: [easy, hard]
+cpd_d1 = TabularCPD('Difficulty_C1', 2, [[0.4], [0.6]],
+                    state_names={'Difficulty_C1': ['easy', 'hard']})  # bayes rule: somewhat hard
+cpd_d2 = TabularCPD('Difficulty_C2', 2, [[0.2], [0.8]],
+                    state_names={'Difficulty_C2': ['easy', 'hard']})  # inference: hard
+cpd_d3 = TabularCPD('Difficulty_C3', 2, [[0.4], [0.6]],
+                    state_names={'Difficulty_C3': ['easy', 'hard']})  # expected utility: somewhat hard
+
+# no reason to think one type of student is more common
+cpd_level = TabularCPD('StudentLevel', 2, [[0.5], [0.5]],
+                       state_names={'StudentLevel': ['struggling', 'advanced']})
+
+# few = 3 days or less until the exam
+cpd_days = TabularCPD('DaysLeft', 2, [[0.5], [0.5]],
+                      state_names={'DaysLeft': ['few', 'many']})
 
 # draw the network (same as the class example)
 di_graph = nx.DiGraph(model.edges())
