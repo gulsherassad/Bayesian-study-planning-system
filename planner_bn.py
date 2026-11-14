@@ -98,7 +98,9 @@ cpd_need = TabularCPD('StudyNeed', 3,
 model.add_cpds(cpd_d1, cpd_d2, cpd_d3, cpd_level, cpd_days,
                cpd_m1, cpd_m2, cpd_m3, cpd_stress, cpd_need)
 assert model.check_model()
-print("model is valid")
+
+if __name__ == '__main__':
+    print("model is valid")
 
 # draw the network (same as the class example)
 di_graph = nx.DiGraph(model.edges())
