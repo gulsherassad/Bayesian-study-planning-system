@@ -1,5 +1,6 @@
 from pgmpy.models import DiscreteBayesianNetwork
 from pgmpy.factors.discrete import TabularCPD
+from pgmpy.inference import BeliefPropagation
 import matplotlib.pyplot as plt
 import networkx as nx
 
@@ -101,6 +102,17 @@ assert model.check_model()
 
 if __name__ == '__main__':
     print("model is valid")
+    inference = BeliefPropagation(model)
+    struggling = {'StudentLevel': 'struggling', 'Difficulty_C1': 'hard', 'Difficulty_C2': 'hard', 'Difficulty_C3': 'hard', 'DaysLeft': 'few'}
+    advanced = {'StudentLevel': 'advanced', 'Difficulty_C1': 'easy', 'Difficulty_C2': 'easy', 'Difficulty_C3': 'easy', 'DaysLeft': 'many'}
+
+    print("struggling student, all hard, exam soon")
+    print(inference.query(variables=['StudyNeed'], evidence=struggling))
+    print(inference.query(variables=['Stress'], evidence=struggling))
+
+    print("advanced student, all easy, exam far away")
+    print(inference.query(variables=['StudyNeed'], evidence=advanced))
+    print(inference.query(variables=['Stress'], evidence=advanced))
 
 # draw the network (same as the class example)
 di_graph = nx.DiGraph(model.edges())
