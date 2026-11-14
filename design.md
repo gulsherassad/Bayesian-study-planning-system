@@ -98,3 +98,17 @@ First test:
 
 The two students get opposite results, which is what I expected. Stress is exactly 0.75 or 0.25 because it only depends on DaysLeft, which is observed. 
 
+## Utility function: U(StudyNeed, Stress, action)
+Score from -10 to 10, made of two parts added together.
+
+Exam success (does the action match how much studying is needed):
+- High need: intense +8, practice +3, light 0, rest -6. When I really need to study, the big block helps most and resting hurts.
+- Medium need: intense 0, practice +4, light +3, rest -2. Practice fits best, intense is overkill.
+- Low need: intense -3, practice -1, light +2, rest +4. I already know it, so heavy studying is wasted time.
+
+Stress:
+- High stress: intense -3, practice -1, light 0, rest +2. A big block makes stress worse and resting helps.
+- Low stress: no change for any action.
+
+Before settling on these, I tested them on 20 different students to make sure each of the 4 actions gets picked somewhere. My first numbers made practice win almost every time, so I raised intense for high need and lowered practice.
+
