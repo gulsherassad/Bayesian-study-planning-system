@@ -86,3 +86,15 @@ Chance of low / medium / high need:
 
 General rule: more low concepts and fewer days left means higher need.
 Limitation: it treats all concepts the same here, even though inference is harder.
+
+## Inference task
+- Evidence: Difficulty_C1, Difficulty_C2, Difficulty_C3, StudentLevel, DaysLeft
+- Query: Pr(StudyNeed) and Pr(Stress)
+- Algorithm: BeliefPropagation (junction tree from slides)
+
+First test: 
+- Struggling student, all hard, exam soon: StudyNeed high = 0.64, Stress high = 0.75
+- Advanced student, all easy, exam far away: StudyNeed low = 0.74, Stress low = 0.75
+
+The two students get opposite results, which is what I expected. Stress is exactly 0.75 or 0.25 because it only depends on DaysLeft, which is observed. 
+
