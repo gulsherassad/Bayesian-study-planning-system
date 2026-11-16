@@ -112,3 +112,16 @@ Stress:
 
 Before settling on these, I tested them on 20 different students to make sure each of the 4 actions gets picked somewhere. My first numbers made practice win almost every time, so I raised intense for high need and lowered practice.
 
+## Expected utility and best action
+EU(action) = sum over need and stress of Pr(StudyNeed) * Pr(Stress) * U(StudyNeed, Stress, action)
+
+The system picks the action with the highest EU (MEU principle).
+
+I can multiply Pr(StudyNeed) and Pr(Stress) because they're independent once DaysLeft is observed. Their only shared parent is DaysLeft, and it's always known.
+
+First results:
+- Struggling student, all hard, exam soon: intense 2.68, practice 2.28, light 1.01, rest -2.66, so it picks intense
+- Advanced student, all easy, exam far away: intense -2.48, practice -0.01, light 2.07, rest 2.69, so it picks rest
+
+For the struggling student, practice was close behind intense (2.28 vs 2.68). That makes sense, since practice is the second most useful action when need is high.
+
