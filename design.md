@@ -125,3 +125,11 @@ First results:
 
 For the struggling student, practice was close behind intense (2.28 vs 2.68). That makes sense, since practice is the second most useful action when need is high.
 
+## Calendar
+- Uses the Google Calendar API, with login code from Google's Python quickstart
+- The system only writes to a separate calendar called "Study Planner", so it never touches my real events
+- Before booking, it clears anything it already planned for today, so running it twice doesn't double book
+- intense = 5 hours, practice = 2 hours, light = 1 hour, all starting at the next full hour
+- rest = clears today and adds an all day "Rest day" event
+- Tested by booking a light review session, and it showed up in my calendar
+
