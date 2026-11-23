@@ -133,3 +133,14 @@ For the struggling student, practice was close behind intense (2.28 vs 2.68). Th
 - rest = clears today and adds an all day "Rest day" event
 - Tested by booking a light review session, and it showed up in my calendar
 
+## Main program
+main.py connects everything:
+- Asks for the exam date and works out days left (3 or less = few)
+- Asks if the student is struggling or advanced, and how hard each concept is
+- Uses those answers as evidence, runs inference and expected utility, and picks the best action
+- Books the action in the Study Planner calendar
+
+Tested:
+- Struggling, all hard, exam in 2 days: picked intense, 5 hour block added to the calendar
+- Advanced, all easy, exam in 17 days: picked rest, block replaced with a rest day
+
