@@ -144,3 +144,22 @@ Tested:
 - Struggling, all hard, exam in 2 days: picked intense, 5 hour block added to the calendar
 - Advanced, all easy, exam in 17 days: picked rest, block replaced with a rest day
 
+## Scenarios
+I tested 6 students to show the system picks different actions:
+- Struggling, all hard, exam soon: intense
+- Struggling, all easy, exam soon: practice
+- Struggling, all easy, exam far: light
+- Advanced, all hard, exam soon: light
+- Advanced, only C2 hard, exam soon: light
+- Advanced, all easy, exam soon: rest
+
+All 4 actions get picked at least once.
+
+Changing only the concept difficulty changes the action:
+- Struggling student with the exam soon: all easy gives practice, all hard gives intense
+- Advanced student with the exam soon: all easy gives rest, and making just inference (C2) hard flips it to light
+
+Earlier I was worried student level would matter more than difficulty. The results show difficulty still changes the decision, so I kept my mastery numbers.
+
+The chart is in scenarios.png.
+
