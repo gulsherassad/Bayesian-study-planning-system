@@ -1,4 +1,3 @@
-# Bayesian-study-planning-system
 # Bayesian Study Planner
 
 COSC 329 Learning Analytics, final project (Option 3)
