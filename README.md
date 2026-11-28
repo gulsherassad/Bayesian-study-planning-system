@@ -62,13 +62,15 @@ python main.py
 ```
 
 It asks for:
-- your exam date (YYYY-MM-DD)
+- your exam dates (YYYY-MM-DD, separate with commas). It plans for the closest one.
 - whether you're struggling or advanced
 - whether each concept is easy or hard for you
 
-Type the answers in lowercase exactly as shown. It then prints the expected utility of each action, picks the best one and adds it to your Study Planner calendar. Running it again on the same day replaces what it booked before.
+Type each answer and press Enter. Use lowercase exactly as shown.
 
-Example: a struggling student who finds all three concepts hard, with the exam in 2 days, gets an intense 5 hour block. An advanced student who finds them all easy, with the exam far away, gets a rest day.
+It then goes through every day until the exam, picks the best action for each day, and books it in your Study Planner calendar. Today's session starts at the next full hour, and other days start at 10am. Running it again replaces what it booked before.
+
+Example: a struggling student who finds all three concepts hard, with the exam 6 days away, gets practice sessions for the first 3 days and intense 5 hour blocks for the last 3 days.
 
 ## Other things you can run
 
@@ -84,7 +86,7 @@ python scenarios.py    # test six students and save the results chart
 2. Belief propagation infers two things: how much studying is needed (StudyNeed) and how stressed the student is (Stress).
 3. The utility function scores each action from -10 to +10, based on exam success and stress.
 4. Expected utility is worked out for each action, and the one with the highest EU is picked.
-5. That action is booked in Google Calendar.
+5. This is repeated for every day until the exam, and each day's action is booked in Google Calendar.
 
 All the details and the reasoning behind every number are in `design.md`.
 
@@ -94,3 +96,5 @@ All the details and the reasoning behind every number are in `design.md`.
 - Stress only depends on how many days are left.
 - Mastery doesn't go up after studying, so the model doesn't learn over time. A dynamic Bayes net would be the way to add that.
 - All variables are simple (two or three values), and the CPTs are handcrafted, not learned from data.
+- The plan only changes when the exam gets within 3 days, because mastery doesn't go up after studying.
+- Google logins expire after 7 days while the app is in testing mode. If you get an "invalid_grant" error, delete token.json and run again.
