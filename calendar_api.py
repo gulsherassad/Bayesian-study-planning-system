@@ -38,24 +38,27 @@ def get_planner_calendar(service):
     return new_cal['id']
 
 
-def clear_today(service, cal_id):
-    # remove anything already planned for today so it doesn't double book
-    today = datetime.now(tz).replace(hour=0, minute=0, second=0, microsecond=0)
-    events = service.events().list(calendarId=cal_id, timeMin=today.isoformat(),
-                                   timeMax=(today + timedelta(days=1)).isoformat()).execute()
+def clear_day(service, cal_id, day):
+    # remove anything already planned for that day so it doesn't double book
+    start = datetime(day.year, day.month, day.day, tzinfo=tz)
+    events = service.events().list(calendarId=cal_id, timeMin=start.isoformat(),
+                                   timeMax=(start + timedelta(days=1)).isoformat()).execute()
     for event in events.get('items', []):
         service.events().delete(calendarId=cal_id, eventId=event['id']).execute()
 
 
-def schedule_action(service, action, focus=None):
+def schedule_action(service, action, day=None, focus=None):
+    today = datetime.now(tz).date()
+    if day is None:
+        day = today
+
     cal_id = get_planner_calendar(service)
-    clear_today(service, cal_id)
+    clear_day(service, cal_id, day)
 
     if action == 'rest':
-        today = datetime.now(tz).date()
         event = {'summary': 'Rest day',
-                 'start': {'date': today.isoformat()},
-                 'end': {'date': (today + timedelta(days=1)).isoformat()}}
+                 'start': {'date': day.isoformat()},
+                 'end': {'date': (day + timedelta(days=1)).isoformat()}}
     else:
         hours = {'intense': 5, 'practice': 2, 'light': 1}
         names = {'intense': 'Intense study block', 'practice': 'Practice problems', 'light': 'Light review'}
@@ -63,15 +66,18 @@ def schedule_action(service, action, focus=None):
         if focus:
             title = title + ': focus on ' + focus
 
-        # start at the next full hour
-        start = datetime.now(tz).replace(minute=0, second=0, microsecond=0) + timedelta(hours=1)
+        # today starts at the next full hour, other days start at 10am
+        if day == today:
+            start = datetime.now(tz).replace(minute=0, second=0, microsecond=0) + timedelta(hours=1)
+        else:
+            start = datetime(day.year, day.month, day.day, 10, tzinfo=tz)
         end = start + timedelta(hours=hours[action])
         event = {'summary': title,
                  'start': {'dateTime': start.isoformat(), 'timeZone': TIMEZONE},
                  'end': {'dateTime': end.isoformat(), 'timeZone': TIMEZONE}}
 
     service.events().insert(calendarId=cal_id, body=event).execute()
-    print("Added to calendar:", event['summary'])
+    print("  added to calendar:", day, event['summary'])
 
 
 if __name__ == '__main__':
